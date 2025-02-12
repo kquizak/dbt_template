@@ -1,5 +1,6 @@
 {{ config(materialized='incremental' , unique_key='md5') }}
 
+
 WITH staged_files AS (
     SELECT
        UUID_STRING() as id,
@@ -7,8 +8,8 @@ WITH staged_files AS (
         cast(null as timestamp) as load_end_time,
         METADATA$FILENAME AS file_name,
         METADATA$FILE_CONTENT_KEY AS md5,
-        $1 AS row_data
-    FROM @gcs_stage
+        $1 AS raw_data
+    FROM @gcs
 )
 
 SELECT * 

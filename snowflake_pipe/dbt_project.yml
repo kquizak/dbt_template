@@ -24,6 +24,8 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 on-run-start:
   - "{{create_gcs_stage('gcs','GCS_INTEGRATION','gcs://snow_source_data','JSON')}}"
+on-run-end:
+  - "{{ upd_load_end('gcs_stage','load_end_time') }}"
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
 

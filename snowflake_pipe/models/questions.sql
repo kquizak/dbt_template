@@ -1,4 +1,4 @@
-{{ config(materialized='table') }}
+{{ config(materialized='incremental') }}
 select 
     UUID_STRING() as id, 
     c.id as curricula_id,
@@ -7,3 +7,8 @@ select
 from {{ref("cte_curriculla")}} t
 cross join table(flatten(t.value)) f
 join {{ref("curriculla")}} c on c.field = t.key
+{% if is_incremental() %}
+where (f.key,c.id) not in (
+    select question_key, curricula_id from {{ this }}
+)
+{% endif %}
