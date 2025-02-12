@@ -23,7 +23,8 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "dbt_packages"
 
 on-run-start:
-  - "{{create_gcs_stage('gcs','GCS_INTEGRATION','gcs://snow_source_data','JSON')}}"
+  - "{{ log('gcs_stage is: ' ~ var('gcs_stage', 'NOT_SET'), info=True) }}"
+  - "{{create_stage( var('gcs_stage').replace('@','') ,'GCS_INTEGRATION','gcs://snow_source_data','JSON')}}"
 on-run-end:
   - "{{ upd_load_end('gcs_stage','load_end_time') }}"
 # Configuring models
@@ -37,3 +38,5 @@ models:
     # Config indicated by + and applies to all files under models/example/
     example:
       +materialized: view
+vars:
+  gcs_stage: "{{ env_var('DBT_GCS_STAGE', '@default_stage') }}" 

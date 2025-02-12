@@ -9,7 +9,7 @@ WITH staged_files AS (
         METADATA$FILENAME AS file_name,
         METADATA$FILE_CONTENT_KEY AS md5,
         $1 AS raw_data
-    FROM @gcs
+    FROM {{ var("gcs_stage") }}
 )
 
 SELECT * 
