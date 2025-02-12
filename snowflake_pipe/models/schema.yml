@@ -1,0 +1,6 @@
+version: 2
+
+model:
+  - name: gcs_stage
+    description: "raw data from GCS bucket defined in GCS_STAGE"
+    materialized: "table"
