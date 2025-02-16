@@ -1,6 +1,25 @@
 version: 2
 
-model:
+models:
   - name: gcs_stage
     description: "raw data from GCS bucket defined in GCS_STAGE"
     materialized: "table"
+
+  - name: curriculla
+    columns:
+      - name: id
+        data_tests:
+          - unique
+          - not_null
+  - name: questions
+    description: "bla bla"
+    columns:
+      - name: id
+        data_tests: 
+          - unique
+      - name: curricula_id
+        data_tests: 
+          - relationships:
+              to: ref("curriculla")
+              field: id
+
