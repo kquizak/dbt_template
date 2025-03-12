@@ -11,7 +11,7 @@ from (
     join {{ref("curriculla")}} c on c.field = t.key
 ) t
 {% if is_incremental() %}
-where (f.key,c.id) not in (
+where (t.question_key,t.curricula_id) not in (
     select question_key, curricula_id from {{ this }}
 )
 {% endif %}
